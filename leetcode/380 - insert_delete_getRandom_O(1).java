@@ -25,20 +25,21 @@ class RandomizedSet {
             return false;
         }
 
-        int targetPosition = indices.get(val);
-        int lastValue = values.get(values.size() - 1);
+        int targetIndex = indices.get(val);
+        int lastIndex = values.size() - 1;
+        int lastValue = values.get(lastIndex);
 
-        values.set(targetPosition, lastValue);
-        indices.put(lastValue, targetPosition);
+        values.set(targetIndex, lastValue);
+        indices.put(lastValue, targetIndex);
 
-        values.remove(values.size() - 1);
+        values.remove(lastIndex);
         indices.remove(val);
+
         return true;
     }
 
     public int getRandom() {
-        int randomIndex = random.nextInt(values.size());
-        return values.get(randomIndex);
+        return values.get(random.nextInt(values.size()));
     }
 }
 
