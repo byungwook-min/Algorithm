@@ -1,25 +1,31 @@
 class Solution {
+
+    private int start = 0;
+    private int maxLength = 0;
+
     public String longestPalindrome(String s) {
-        int start = 0, end = 0;
+        if (s == null || s.length() < 2) {
+            return s;
+        }
 
         for (int i = 0; i < s.length(); i++) {
-            int len1 = expand(s, i, i);
-            int len2 = expand(s, i, i + 1);
-            int len = Math.max(len1, len2);
-
-            if (len > end - start + 1) {
-                start = i - (len - 1) / 2;
-                end = i + len / 2;
-            }
+            expand(s, i, i);
+            expand(s, i, i + 1);
         }
-        return s.substring(start, end + 1);
+
+        return s.substring(start, start + maxLength);
     }
 
-    private int expand(String s, int left, int right) {
+    private void expand(String s, int left, int right) {
         while (left >= 0 && right < s.length() && s.charAt(left) == s.charAt(right)) {
             left--;
             right++;
         }
-        return right - left - 1;
+
+        int length = right - left - 1;
+        if (length > maxLength) {
+            start = left + 1;
+            maxLength = length;
+        }
     }
 }
