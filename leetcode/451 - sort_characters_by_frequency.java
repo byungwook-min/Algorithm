@@ -1,13 +1,23 @@
 class Solution {
     public String frequencySort(String s) {
-        
-        Map<Character, Long> frequencies = s.chars()
-                .mapToObj(c -> (char) c)
-                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+        if (s == null || s.isEmpty()) return s;
 
-        return frequencies.entrySet().stream()
-                .sorted((e1, e2) -> Long.compare(e2.getValue(), e1.getValue()))
-                .map(e -> String.valueOf(e.getKey()).repeat(e.getValue().intValue()))
-                .collect(Collectors.joining());
+        Map<Character, Integer> frequencies = new HashMap<>();
+        for (char c : s.toCharArray()) {
+            frequencies.put(c, frequencies.getOrDefault(c, 0) + 1);
+        }
+
+        List<Character> characters = new ArrayList<>(frequencies.keySet());
+        characters.sort((a, b) -> frequencies.get(b) - frequencies.get(a));
+
+        StringBuilder sorted = new StringBuilder();
+        for (char c : characters) {
+            int count = frequencies.get(c);
+            while (count-- > 0) {
+                sorted.append(c);
+            }
+        }
+
+        return sorted.toString();
     }
 }
