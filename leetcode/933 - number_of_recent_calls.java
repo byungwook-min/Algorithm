@@ -1,18 +1,18 @@
 class RecentCounter {
 
-    private final Deque<Integer> requestTimes;
+    private final Queue<Integer> queue;
 
     public RecentCounter() {
-        this.requestTimes = new ArrayDeque<>();
+        this.queue = new ArrayDeque<>();
     }
 
     public int ping(int t) {
-        requestTimes.addLast(t);
+        queue.offer(t);
 
-        while (t - requestTimes.getFirst() > 3000) {
-            requestTimes.removeFirst();
+        while (t - queue.peek() > 3000) {
+            queue.poll();
         }
-        return requestTimes.size();
+        return queue.size();
     }
 }
 
